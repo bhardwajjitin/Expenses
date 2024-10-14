@@ -1,7 +1,9 @@
 import 'package:authentication/chart/chart.dart';
+import 'package:authentication/login.dart';
 import 'package:authentication/widget/expenses_list/expenses_list.dart';
 import 'package:authentication/widget/new_expenses.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication/blueprint.dart';
 
@@ -144,6 +146,20 @@ class _MyExpenses extends State<Expenses> {
       appBar: AppBar(
         title: const Text('Expense Tracker'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false, // Removes all previous routes from the stack
+              );
+
+              FirebaseAuth.instance.signOut();
+            },
+          ),
+        ],
       ),
       body: _isLoading // Show CircularProgressIndicator when loading
           ? const Center(

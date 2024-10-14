@@ -49,10 +49,14 @@ class _Signup extends State<SignUp> {
           'email': email,
         });
 
+        await userCredential.user!.sendEmailVerification();
+
+        _showSnackBar("Verification email sent! Please check your inbox.");
+
+        await FirebaseAuth.instance.signOut();
+
         if (mounted) {
-          if (userCredential.user != null) {
-            Navigator.pop(context);
-          }
+          Navigator.pop(context);
         }
 
         _showSnackBar("User Created Successfully");

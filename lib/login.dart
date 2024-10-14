@@ -20,6 +20,11 @@ class _Login extends State<LoginScreen> {
       final login = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: loginpassword.text.trim());
+      if (!login.user!.emailVerified) {
+        await FirebaseAuth.instance.signOut();
+        _showSnackBar("Please verify your email before logging in.");
+        return;
+      }
       if (login.user != null) {
         String userid = login.user!.uid;
         if (mounted) {
@@ -33,8 +38,6 @@ class _Login extends State<LoginScreen> {
         _showSnackBar('please enter user name and password');
       }
     } on FirebaseAuthException catch (e) {
-      // Handling specific Firebase Authentication errors
-
       switch (e.code) {
         case 'auth/invalid-email':
           _showSnackBar('The email address is not valid.');
@@ -66,79 +69,86 @@ class _Login extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(8.0),
-      child: Form(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 2, 16, 2),
-              child: TextFormField(
-                controller: emailController,
-                autocorrect: false,
-                textCapitalization: TextCapitalization.none,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50.00))),
-                  hintText: 'Enter the Email Address',
-                ),
-                keyboardType: TextInputType.emailAddress,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 2, 16, 5),
-              child: TextFormField(
-                controller: loginpassword,
-                autocorrect: false,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50.00))),
-                  hintText: 'Enter the Password here',
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(builder: (context) => const SignUp()),
-                    );
-                  },
-                  style: const ButtonStyle(
-                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 2, 16, 2),
+                  child: TextFormField(
+                    controller: emailController,
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
                           borderRadius:
-                              BorderRadius.all(Radius.circular(25.00))))),
-                  child: const Text('Sign Up'),
+                              BorderRadius.all(Radius.circular(50.00))),
+                      hintText: 'Enter the Email Address',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    signIn();
-                  },
-                  style: const ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25.00),
-                        ),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 2, 16, 5),
+                  child: TextFormField(
+                    controller: loginpassword,
+                    autocorrect: false,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(50.00))),
+                      hintText: 'Enter the Password here',
                     ),
                   ),
-                  child: const Text('Sign In'),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => const SignUp()),
+                        );
+                      },
+                      style: const ButtonStyle(
+                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.00))))),
+                      child: const Text('Sign Up'),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        signIn();
+                      },
+                      style: const ButtonStyle(
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25.00),
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: const Text('Sign In'),
+                    ),
+                  ],
+                )
               ],
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );
