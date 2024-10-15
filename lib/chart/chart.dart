@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'chart_bar.dart';
-import 'package:authentication/blueprint.dart';
+import 'package:PennyTrack/blueprint.dart';
 
 class Chart extends StatelessWidget {
   const Chart({super.key, required this.expenses});

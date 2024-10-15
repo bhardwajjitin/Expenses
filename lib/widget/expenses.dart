@@ -1,11 +1,11 @@
-import 'package:authentication/chart/chart.dart';
-import 'package:authentication/login.dart';
-import 'package:authentication/widget/expenses_list/expenses_list.dart';
-import 'package:authentication/widget/new_expenses.dart';
+import 'package:PennyTrack/chart/chart.dart';
+import 'package:PennyTrack/login.dart';
+import 'package:PennyTrack/widget/expenses_list/expenses_list.dart';
+import 'package:PennyTrack/widget/new_expenses.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:authentication/blueprint.dart';
+import 'package:PennyTrack/blueprint.dart';
 
 class Expenses extends StatefulWidget {
   final String userid;

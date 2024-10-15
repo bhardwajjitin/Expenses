@@ -1,4 +1,4 @@
-import 'package:authentication/widget/expenses.dart';
+import 'package:PennyTrack/widget/expenses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:authentication/blueprint.dart';
+import 'package:PennyTrack/blueprint.dart';
 
 class ExpenseItem extends StatelessWidget {
   const ExpenseItem(this.expense, {super.key});

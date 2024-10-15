@@ -1,4 +1,4 @@
-name: authentication
+name: PennyTrack
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,11 +40,13 @@ dependencies:
   firebase_core: ^3.3.0
   firebase_auth: ^5.1.4
   cloud_firestore: ^5.4.0
+  
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.13.1"
+  
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -64,9 +66,7 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/app-icon.jpg"
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/app-icon.jpg"
+  image_path: "assests/app-icon.jpg"
   # To add assets to your application, add an assets section, like this:
   # assests:
   #   assets/app-icon.jpeg

@@ -1,5 +1,5 @@
-import 'package:authentication/blueprint.dart';
-import 'package:authentication/widget/expenses_list/expenses_item.dart';
+import 'package:PennyTrack/blueprint.dart';
+import 'package:PennyTrack/widget/expenses_list/expenses_item.dart';
 import 'package:flutter/material.dart';
 
 class ExpensesList extends StatelessWidget {
