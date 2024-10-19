@@ -16,6 +16,28 @@ class LoginScreen extends StatefulWidget {
 class _Login extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController loginpassword = TextEditingController();
+  bool _passwordVisible = false;
+  bool _isPasswordFilled = false; // Track if the password field has text
+
+  @override
+  void initState() {
+    super.initState();
+    // Add a listener to the password controller
+    loginpassword.addListener(() {
+      setState(() {
+        _isPasswordFilled =
+            loginpassword.text.isNotEmpty; // Check if the field has text
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose(); // Clean up the email controller
+    loginpassword.dispose(); // Clean up the password controller
+    super.dispose();
+  }
+
   void signIn() async {
     try {
       final login = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -107,12 +129,30 @@ class _Login extends State<LoginScreen> {
                   child: TextFormField(
                     controller: loginpassword,
                     autocorrect: false,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
+                    obscureText: _passwordVisible,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(50.00))),
                       hintText: 'Enter the Password here',
+                      suffixIcon: _isPasswordFilled
+                          ? IconButton(
+                              icon: Icon(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white // White icon in dark mode
+                                    : Colors.black,
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                            )
+                          : null,
                     ),
                   ),
                 ),

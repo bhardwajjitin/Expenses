@@ -175,7 +175,8 @@ class _MyExpenses extends State<Expenses> {
                                 // Show SnackBar to confirm logout
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                      content: Text('You’re now logged out.')),
+                                      content: Text('You’re now logged out.'),
+                                      duration: Duration(seconds: 3)),
                                 );
 
                                 // Navigate to the LoginScreen
