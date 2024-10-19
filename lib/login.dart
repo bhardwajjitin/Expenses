@@ -1,4 +1,5 @@
 import 'package:PennyTrack/widget/expenses.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +28,24 @@ class _Login extends State<LoginScreen> {
       }
       if (login.user != null) {
         String userid = login.user!.uid;
-        if (mounted) {
-          _showSnackBar('Signed In Successfully');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Expenses(userid: userid)),
-          );
+        var documentSnapshot = await FirebaseFirestore.instance
+            .collection('Users Details')
+            .doc(userid)
+            .get();
+        if (documentSnapshot.exists &&
+            documentSnapshot.data()?['name'] != null) {
+          String name = documentSnapshot.data()!['name'];
+
+          if (mounted) {
+            _showSnackBar('Welcome $name');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Expenses(userid: userid)),
+            );
+          }
         }
       } else {
-        _showSnackBar('please enter user name and password');
+        _showSnackBar('Please enter user name and password');
       }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {

@@ -144,19 +144,68 @@ class _MyExpenses extends State<Expenses> {
     }
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Expense Tracker'),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false, // Removes all previous routes from the stack
-              );
+              // Show a confirmation modal from the bottom
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    padding: const EdgeInsets.all(20),
+                    height: 150,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Do you want to log out?',
+                            style: TextStyle(fontSize: 18)),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.pop(
+                                    context); // Close the bottom sheet
 
-              FirebaseAuth.instance.signOut();
+                                // Show SnackBar to confirm logout
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('You’re now logged out.')),
+                                );
+
+                                // Navigate to the LoginScreen
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LoginScreen()),
+                                  (route) => false,
+                                );
+
+                                // Sign out the user
+                                await FirebaseAuth.instance.signOut();
+                              },
+                              child: const Text('Yes'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(
+                                    context); // Close the bottom sheet
+                              },
+                              child: const Text('No'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
           ),
         ],
